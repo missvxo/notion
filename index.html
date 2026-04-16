@@ -43,7 +43,7 @@ h1 {
     border-radius: 10px;
     background: #ffffff;
     width: 85vw;
-    color: #000000;
+    color: #fff;
     display: inline-block;
     box-shadow: none;
 }
@@ -56,7 +56,7 @@ h1 {
 .clock {
     display: inline;
     font-family: 'Poiret One', cursive;
-    font-size: 1.5em;
+    font-size: 2em;
    
 }
 
@@ -74,14 +74,14 @@ h1 {
     display: inline;
     min-width: 162px;
     font-family: 'Poiret One', cursive;
-    font-size: 1.5em;
+    font-size: 2em;
     padding-right: 30px;
 }
 .greet{
     
     display:inline;
     font-family: 'Poiret One', cursive;
-    font-size: 1.5rem;
+    font-size: 2rem;
      padding-right: 30px;
 }
 
@@ -119,6 +119,7 @@ function clock() {
 var today = new Date();
 var hour = zeros(twelveHour(today.getHours()));
 var minutes = zeros(today.getMinutes());
+var seconds = zeros(today.getSeconds());
 if(today.getHours() >=12){
     seconds+=" pm"
 }
@@ -136,6 +137,7 @@ if (hrs < 12)
 document.getElementById('greet').innerHTML = greet;
 document.getElementById('hour').innerHTML = hour;
 document.getElementById('min').innerHTML = minutes;
+document.getElementById('sec').innerHTML = seconds;
 }
 
 function twelveHour(hour) {
