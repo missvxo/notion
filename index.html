@@ -100,6 +100,8 @@ h1 {
         <div class="time" id="hour"></div>
         <div class="colon">:</div>
         <div class="time" id="min"></div>
+        <div class="colon">:</div>
+        <div class="time" id="sec"></div>
       </div>
     </div>
     
@@ -117,6 +119,7 @@ function clock() {
 var today = new Date();
 var hour = zeros(twelveHour(today.getHours()));
 var minutes = zeros(today.getMinutes());
+var seconds = zeros(today.getSeconds());
 if(today.getHours() >=12){
     seconds+=" pm"
 }
@@ -125,15 +128,16 @@ else{
 }
 hrs = today.getHours();
 if (hrs < 12)
-        greet = 'Good morning Lauren ';
+        greet = 'Good Morning  ';
     else if (hrs >= 12 && hrs <= 17)
-        greet = 'Good afternoon Lauren ';
+        greet = 'Good Afternoon ';
     else if (hrs >= 17 && hrs <= 24)
-        greet = 'Good evening Lauren  ';
+        greet = 'Good Evening  ';
 // console.log(today.toLocaleTimeString());
 document.getElementById('greet').innerHTML = greet;
 document.getElementById('hour').innerHTML = hour;
 document.getElementById('min').innerHTML = minutes;
+document.getElementById('sec').innerHTML = seconds;
 }
 
 function twelveHour(hour) {
