@@ -24,18 +24,28 @@
         letter-spacing: 1px;
     }
 
-    /* Container for side-by-side layout */
+    /* Side-by-side container */
     .episode-container {
         display: flex;
         justify-content: center;
+        align-items: flex-start;
         gap: 40px;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         margin-top: 10px;
     }
 
     .episode-box {
         width: 300px;
         text-align: center;
+    }
+
+    /* Vertical divider */
+    .divider {
+        width: 1px;
+        background-color: black;
+        opacity: 0.3;
+        height: 100%;
+        margin-top: 20px;
     }
 
     h2 {
@@ -50,9 +60,21 @@
         letter-spacing: 0.5px;
     }
 
+    .season-ep {
+        font-size: 16px;
+        opacity: 0.85;
+        margin-bottom: 5px;
+    }
+
     .air-date {
         font-size: 16px;
         opacity: 0.8;
+        margin-bottom: 5px;
+    }
+
+    .disney-date {
+        font-size: 15px;
+        opacity: 0.75;
         margin-bottom: 10px;
     }
 
@@ -75,6 +97,8 @@
             <div id="latest-episode">Loading...</div>
         </div>
 
+        <div class="divider"></div>
+
         <div class="episode-box">
             <h2>Next Episode</h2>
             <div id="next-episode">Loading...</div>
@@ -86,6 +110,12 @@
 const apiKey = "20330d7f3c59cd44c41c12d7682481ed"; 
 const showId = 1416; // TMDB ID for Grey's Anatomy
 
+function addOneDay(dateString) {
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split("T")[0];
+}
+
 async function fetchEpisodes() {
     try {
         const response = await fetch(
@@ -96,20 +126,28 @@ async function fetchEpisodes() {
         const latest = data.last_episode_to_air;
         const next = data.next_episode_to_air;
 
-        // Latest episode
+        /* Latest episode */
         if (latest) {
+            const disneyDate = addOneDay(latest.air_date);
+
             document.getElementById("latest-episode").innerHTML = `
                 <div class="episode-title">${latest.name}</div>
-                <div class="air-date">${latest.air_date}</div>
+                <div class="season-ep">Season ${latest.season_number}, Episode ${latest.episode_number}</div>
+                <div class="air-date">Aired (US): ${latest.air_date}</div>
+                <div class="disney-date">Added to Disney+ UK: ${disneyDate}</div>
                 <div class="description">${latest.overview || "No description available."}</div>
             `;
         }
 
-        // Next episode
+        /* Next episode */
         if (next) {
+            const disneyDate = addOneDay(next.air_date);
+
             document.getElementById("next-episode").innerHTML = `
                 <div class="episode-title">${next.name}</div>
-                <div class="air-date">${next.air_date}</div>
+                <div class="season-ep">Season ${next.season_number}, Episode ${next.episode_number}</div>
+                <div class="air-date">Airs (US): ${next.air_date}</div>
+                <div class="disney-date">Added to Disney+ UK: ${disneyDate}</div>
                 <div class="description">${next.overview || "No official description released yet."}</div>
             `;
         } else {
