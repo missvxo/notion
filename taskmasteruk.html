@@ -24,7 +24,6 @@
         letter-spacing: 1px;
     }
 
-    /* Side-by-side container */
     .episode-container {
         display: flex;
         justify-content: center;
@@ -39,7 +38,6 @@
         text-align: center;
     }
 
-    /* Vertical divider */
     .divider {
         width: 1px;
         background-color: black;
@@ -101,26 +99,32 @@
     </div>
 
 <script>
-const apiKey = "20330d7f3c59cd44c41c12d7682481ed"; 
-const showId = 65402; // TMDB ID for Taskmaster UK
-
-async function fetchEpisodes() {
+async function fetchTaskmaster() {
     try {
+        // Fetch show + all episodes
         const response = await fetch(
-            `https://api.themoviedb.org/3/tv/${showId}?api_key=${apiKey}&language=en-US`
+            "https://api.tvmaze.com/singlesearch/shows?q=taskmaster&embed=episodes"
         );
         const data = await response.json();
 
-        const latest = data.last_episode_to_air;
-        const next = data.next_episode_to_air;
+        const episodes = data._embedded.episodes;
+
+        // Find latest aired episode
+        const today = new Date();
+        const pastEpisodes = episodes.filter(ep => new Date(ep.airdate) <= today);
+        const latest = pastEpisodes[pastEpisodes.length - 1];
+
+        // Find next upcoming episode
+        const futureEpisodes = episodes.filter(ep => new Date(ep.airdate) > today);
+        const next = futureEpisodes[0];
 
         /* Latest episode */
         if (latest) {
             document.getElementById("latest-episode").innerHTML = `
                 <div class="episode-title">${latest.name}</div>
-                <div class="season-ep">Season ${latest.season_number}, Episode ${latest.episode_number}</div>
-                <div class="air-date">Aired (UK): ${latest.air_date}</div>
-                <div class="description">${latest.overview || "No description available."}</div>
+                <div class="season-ep">Season ${latest.season}, Episode ${latest.number}</div>
+                <div class="air-date">Aired (UK): ${latest.airdate}</div>
+                <div class="description">${latest.summary ? latest.summary.replace(/<[^>]+>/g, '') : "No description available."}</div>
             `;
         }
 
@@ -128,9 +132,9 @@ async function fetchEpisodes() {
         if (next) {
             document.getElementById("next-episode").innerHTML = `
                 <div class="episode-title">${next.name}</div>
-                <div class="season-ep">Season ${next.season_number}, Episode ${next.episode_number}</div>
-                <div class="air-date">Airs (UK): ${next.air_date}</div>
-                <div class="description">${next.overview || "No official description released yet."}</div>
+                <div class="season-ep">Season ${next.season}, Episode ${next.number}</div>
+                <div class="air-date">Airs (UK): ${next.airdate}</div>
+                <div class="description">${next.summary ? next.summary.replace(/<[^>]+>/g, '') : "No official description released yet."}</div>
             `;
         } else {
             document.getElementById("next-episode").innerHTML = `
@@ -144,7 +148,7 @@ async function fetchEpisodes() {
     }
 }
 
-fetchEpisodes();
+fetchTaskmaster();
 </script>
 
 </body>
