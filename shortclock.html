@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi beautiful</title>
+    <title>greeting2</title>
 
     <style>
 
@@ -76,11 +76,11 @@
     function greeting() {
         var hrs = new Date().getHours();
         if (hrs < 12)
-            return '';
+            return 'Good morning';
         else if (hrs >= 12 && hrs <= 17)
-            return '';
+            return 'Good afternoon';
         else
-            return '';
+            return 'Good evening';
     }
 
     function twelveHour(hour) {
@@ -99,7 +99,7 @@
         var today = date();
 
         document.getElementById('fullLine').innerHTML =
-            ${time} ${today}`;
+            `${greet}, Lauren. It’s ${time} on ${today}`;
     }
 
     setInterval(updateLine, 500);
