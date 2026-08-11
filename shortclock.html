@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Poiret+One&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi there beautiful</title>
+
+    <style>
+
+        body{
+            background-color: #fff;
+            line-height: 1.6;
+        }
+
+        .full-table {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .card {
+            padding: 5px 5px;
+            border-radius: 5px;
+            background: #ffffff;
+            width: 85vw;
+            color: #000000;
+            display: inline-block;
+        }
+
+        .line {
+            font-family: 'Poiret One', cursive;
+            font-size: 1.5rem;
+        }
+
+        .time {
+            font-family: 'Poiret One', cursive;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="full-table">
+  <div class="table-cell">
+    
+    <div class="card">
+        <div class="line" id="fullLine"></div>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+    function date() {
+        var today = new Date();
+        return today.toDateString();
+    }
+
+    function clock() {
+        var today = new Date();
+        var hour = zeros(twelveHour(today.getHours()));
+        var minutes = zeros(today.getMinutes());
+        var suffix = today.getHours() >= 12 ? "pm" : "am";
+
+        return hour + ":" + minutes + suffix;
+    }
+
+    function greeting() {
+        var hrs = new Date().getHours();
+        if (hrs < 12)
+            return '&hearts;';
+        else if (hrs >= 12 && hrs <= 17)
+            return '&hearts;';
+        else
+            return 'Good evening';
+    }
+
+    function twelveHour(hour) {
+        if (hour > 12) return hour - 12;
+        if (hour === 0) return 12;
+        return hour;
+    }
+
+    function zeros(num) {
+        return num < 10 ? '0' + num : num;
+    }
+
+    function updateLine() {
+        var greet = greeting();
+        var time = clock();
+        var today = date();
+
+        document.getElementById('fullLine').innerHTML =
+            ${time} ${today}`;
+    }
+
+    setInterval(updateLine, 500);
+    updateLine();
+</script>
+
+</body>
+</html>
