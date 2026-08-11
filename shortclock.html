@@ -76,11 +76,11 @@
     function greeting() {
         var hrs = new Date().getHours();
         if (hrs < 12)
-            return '-';
+            return '[';
         else if (hrs >= 12 && hrs <= 17)
-            return '-';
+            return '[';
         else
-            return '-';
+            return '[';
     }
 
     function twelveHour(hour) {
@@ -99,7 +99,7 @@
         var today = date();
 
         document.getElementById('fullLine').innerHTML =
-            `${greet}It’s ${time} on ${today}`;
+            `${greet} ${time} ${today}]`;
     }
 
     setInterval(updateLine, 500);
